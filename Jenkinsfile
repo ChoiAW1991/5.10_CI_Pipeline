@@ -10,6 +10,7 @@ pipeline {
            	 
         	}    
     	}
+
     	stage('Build') {
         	steps {
         	sh "mvn compile"  	 
@@ -19,8 +20,15 @@ pipeline {
     	stage("Unit test") {          	 
         	steps {  	 
             	sh "mvn test"          	 
-       	    }
+       	        }
+               
+                post {
+               		 always {
+                	 	 junit '**/target/surefire-reports/TEST-*.xml'
+                         }
+                } 
     	}
+
     	stage("Package") {          	 
         	steps {  	 
             	sh "mvn package"          	 
